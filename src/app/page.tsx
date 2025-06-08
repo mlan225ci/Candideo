@@ -79,6 +79,54 @@ export default function HomePage() {
           <p className="text-sm">Offres d’emploi</p>
         </div>
       </section>
+
+      {/* AVANTAGES */}
+      <section className="py-16 px-6 text-center">
+        <h2 className="text-2xl font-bold mb-10">Pourquoi choisir Candidéo ?</h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="p-6 bg-gray-50 rounded-md shadow-sm">
+            <h3 className="font-semibold mb-2">Gain de temps</h3>
+            <p className="text-gray-600">Nos experts s’occupent de la présélection pour vous.</p>
+          </div>
+          <div className="p-6 bg-gray-50 rounded-md shadow-sm">
+            <h3 className="font-semibold mb-2">Profils vérifiés</h3>
+            <p className="text-gray-600">Chaque candidat est évalué avant d’être proposé.</p>
+          </div>
+          <div className="p-6 bg-gray-50 rounded-md shadow-sm">
+            <h3 className="font-semibold mb-2">Accompagnement</h3>
+            <p className="text-gray-600">Un suivi personnalisé tout au long de votre recrutement.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Témoignages */}
+      <section className="py-16 px-6 bg-green-50">
+        <h2 className="text-2xl font-bold text-center mb-10">Ils nous font confiance</h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { name: 'Marie', text: 'Grâce à Candidéo, nous avons recruté un développeur en une semaine !' },
+            { name: 'Jean', text: 'Les profils sont vraiment qualifiés, un gain de temps incroyable.' },
+            { name: 'Fatou', text: 'Un service client réactif et professionnel, je recommande.' },
+          ].map((t) => (
+            <div key={t.name} className="bg-white p-6 rounded-md shadow">
+              <p className="italic mb-2">"{t.text}"</p>
+              <p className="font-semibold text-green-700">{t.name}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CALL TO ACTION */}
+      <section className="py-20 px-6 text-center bg-green-600 text-white">
+        <h2 className="text-3xl font-bold mb-4">Prêt à trouver le profil idéal ?</h2>
+        <p className="mb-8">Créez votre compte entreprise et publiez votre annonce.</p>
+        <a
+          href="/rendez-vous"
+          className="bg-white text-green-600 font-semibold px-6 py-3 rounded-md hover:bg-gray-100 transition"
+        >
+          Commencer
+        </a>
+      </section>
     </main>
   );
 }
