@@ -1,8 +1,33 @@
 'use client';
 
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { createBrowserClient } from '@/utils/supabase';
+
+interface Category {
+  id: string;
+  nom: string;
+  slug: string;
+  candidat_count: number | null;
+}
 
 export default function HomePage() {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const supabase = createBrowserClient();
+
+  useEffect(() => {
+    const load = async () => {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('id, nom, slug, candidat_count');
+
+      if (error) console.error('Erreur chargement categories', error);
+      else if (data) setCategories(data);
+    };
+
+    load();
+  }, []);
   return (
     <main className="min-h-screen bg-white">
       {/* HERO SECTION */}
@@ -47,15 +72,18 @@ export default function HomePage() {
         <h2 className="text-2xl font-bold mb-6">Parcourir les profils par catégories</h2>
         <p className="text-gray-600 mb-6">Trouvez les meilleurs profils rapidement</p>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {[
-            "Communication", "Gestion de projet", "Informatique", "Secrétaires", "Comptabilité",
-            "Commercial", "Ingénierie", "Marketing & Vente", "RH", "Contrôle de gestion",
-            "Expatriés", "QHSE", "Bâtiment", "Travaux publics", "Bilingues"
-          ].map((cat) => (
-            <div key={cat} className="bg-gray-100 text-center p-4 rounded-md shadow-sm text-sm">
-              {cat}
-              <p className="text-xs text-gray-500 mt-1">0 candidat</p>
-            </div>
+          {categories.map((cat) => (
+            <Link
+              key={cat.id}
+              href={`/categorie/${cat.slug}`}
+              className="bg-gray-100 text-center p-4 rounded-md shadow-sm text-sm"
+            >
+              {cat.nom}
+              <p className="text-xs text-gray-500 mt-1">
+                {cat.candidat_count ?? 0} candidat
+                {cat.candidat_count === 1 ? '' : 's'}
+              </p>
+            </Link>
           ))}
         </div>
       </section>
