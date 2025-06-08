@@ -94,7 +94,7 @@ export default function NouvelleOffre() {
           type="submit"
           className="bg-green-600 text-white rounded-md py-2 hover:bg-green-700 transition"
         >
-          Publier l'offre
+          Publier l&apos;offre
         </button>
       </form>
     </div>

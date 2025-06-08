@@ -17,7 +17,7 @@ export default function StatsPage() {
       setStats(data)
     }
     fetchStats()
-  }, [])
+  }, [supabase])
 
   return (
     <div className="p-6 space-y-4">

@@ -41,9 +41,9 @@ export default function LoginForm() {
         {isSignUp ? "Créer un compte" : "Se connecter"}
       </h1>
       {missingEnv && (
-        <p className="text-red-600 mb-4 text-sm">
-          Variables d'environnement Supabase manquantes.
-        </p>
+          <p className="text-red-600 mb-4 text-sm">
+            Variables d&apos;environnement Supabase manquantes.
+          </p>
       )}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
@@ -90,7 +90,7 @@ export default function LoginForm() {
               onClick={() => setIsSignUp(true)}
               className="text-green-600 hover:underline"
             >
-              S'inscrire
+              S&apos;inscrire
             </button>
           </>
         )}

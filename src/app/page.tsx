@@ -27,7 +27,7 @@ export default function HomePage() {
     };
 
     load();
-  }, []);
+  }, [supabase]);
   return (
     <main className="min-h-screen bg-white">
       {/* HERO SECTION */}
@@ -137,7 +137,7 @@ export default function HomePage() {
             { name: 'Fatou', text: 'Un service client réactif et professionnel, je recommande.' },
           ].map((t) => (
             <div key={t.name} className="bg-white p-6 rounded-md shadow">
-              <p className="italic mb-2">"{t.text}"</p>
+              <p className="italic mb-2">&quot;{t.text}&quot;</p>
               <p className="font-semibold text-green-700">{t.name}</p>
             </div>
           ))}

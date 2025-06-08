@@ -26,7 +26,7 @@ export default function ListeCandidats() {
     }
 
     fetchCandidats();
-  }, []);
+  }, [supabase]);
 
   return (
     <div className="p-6">

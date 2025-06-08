@@ -65,7 +65,7 @@ export default function Abonnement() {
       if (data?.plan) setCurrentPlan(data.plan)
     }
     load()
-  }, [])
+  }, [supabase])
 
   return (
     <div className="p-6">
