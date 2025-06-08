@@ -13,7 +13,11 @@ export async function middleware(request: NextRequest) {
       data: { session },
     } = await supabase.auth.getSession()
 
-    if (!session && request.nextUrl.pathname.startsWith('/dashboard/recruteur')) {
+    if (
+      !session &&
+      (request.nextUrl.pathname.startsWith('/dashboard/recruteur') ||
+        request.nextUrl.pathname.startsWith('/dashboard/candidat'))
+    ) {
       const redirectUrl = new URL('/login', request.url)
       return NextResponse.redirect(redirectUrl)
     }
