@@ -19,8 +19,19 @@ export default function CandidatsPage() {
   const [candidats, setCandidats] = useState<Candidat[]>([])
   const [keyword, setKeyword] = useState('')
   const [ville, setVille] = useState('')
+  const [villes, setVilles] = useState<string[]>([])
   const [genre, setGenre] = useState('')
   const [age, setAge] = useState('')
+
+  const fetchVilles = async () => {
+    const { data, error } = await supabase
+      .from('candidats')
+      .select('ville', { distinct: true })
+      .order('ville', { ascending: true })
+
+    if (error) console.error('Erreur chargement villes', error)
+    else if (data) setVilles(data.map((v) => v.ville).filter(Boolean))
+  }
 
   const fetchCandidats = async () => {
     let query = supabase
@@ -46,6 +57,11 @@ export default function CandidatsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyword, ville, genre, age])
 
+  useEffect(() => {
+    fetchVilles()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div className="p-6">
       <h1 className="mb-4 text-2xl font-bold">Tous les candidats</h1>
@@ -57,13 +73,18 @@ export default function CandidatsPage() {
           onChange={(e) => setKeyword(e.target.value)}
           className="rounded border px-3 py-2"
         />
-        <input
-          type="text"
-          placeholder="Ville"
+        <select
           value={ville}
           onChange={(e) => setVille(e.target.value)}
           className="rounded border px-3 py-2"
-        />
+        >
+          <option value="">Ville</option>
+          {villes.map((v) => (
+            <option key={v} value={v}>
+              {v}
+            </option>
+          ))}
+        </select>
         <select
           value={genre}
           onChange={(e) => setGenre(e.target.value)}
