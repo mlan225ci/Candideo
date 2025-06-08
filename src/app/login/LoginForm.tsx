@@ -10,25 +10,41 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const missingEnv =
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    if (isSignUp) {
-      const { error } = await supabase.auth.signUp({ email, password });
-      if (error) return setError(error.message);
-    } else {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) return setError(error.message);
+    if (missingEnv) {
+      setError('Configuration API manquante');
+      return;
     }
-    router.push("/dashboard/recruteur");
+    try {
+      if (isSignUp) {
+        const { error } = await supabase.auth.signUp({ email, password });
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+      }
+      router.push('/dashboard/recruteur');
+    } catch (err: any) {
+      setError(err.message);
+    }
   };
 
   return (
-    <div>
+    <div className="bg-white p-8 rounded-lg shadow-md w-full">
       <h1 className="text-2xl font-bold mb-4">
         {isSignUp ? "Créer un compte" : "Se connecter"}
       </h1>
+      {missingEnv && (
+        <p className="text-red-600 mb-4 text-sm">
+          Variables d'environnement Supabase manquantes.
+        </p>
+      )}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="email"
