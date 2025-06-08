@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { createBrowserClient } from '@/utils/supabase'
 
@@ -21,8 +21,10 @@ export default function CandidatsPage() {
   const [ville, setVille] = useState('')
   const [genre, setGenre] = useState('')
   const [age, setAge] = useState('')
+  const [loading, setLoading] = useState(true)
 
-  const fetchCandidats = async () => {
+  const fetchCandidats = useCallback(async () => {
+    setLoading(true)
     let query = supabase
       .from('candidats')
       .select('id, nom, prenom, ville, genre, age, titre_professionnel')
@@ -39,12 +41,12 @@ export default function CandidatsPage() {
     const { data, error } = await query
     if (error) console.error('Erreur chargement candidats', error)
     else setCandidats(data || [])
-  }
+    setLoading(false)
+  }, [age, genre, keyword, supabase, ville])
 
   useEffect(() => {
     fetchCandidats()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keyword, ville, genre, age])
+  }, [fetchCandidats])
 
   return (
     <div className="p-6">
@@ -81,7 +83,11 @@ export default function CandidatsPage() {
           className="rounded border px-3 py-2"
         />
       </div>
-      {candidats.length === 0 ? (
+      {loading ? (
+        <div className="flex justify-center p-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+        </div>
+      ) : candidats.length === 0 ? (
         <p>Aucun candidat trouvé.</p>
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
