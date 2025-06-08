@@ -13,9 +13,9 @@ type Candidat = {
 
 export default function ListeCandidats() {
   const [candidats, setCandidats] = useState<Candidat[]>([]);
-  const supabase = createBrowserClient();
 
   useEffect(() => {
+    const supabase = createBrowserClient();
     async function fetchCandidats() {
       const { data, error } = await supabase
         .from('candidats')
