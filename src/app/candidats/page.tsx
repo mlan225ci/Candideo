@@ -21,6 +21,7 @@ export default function CandidatsPage() {
   const [ville, setVille] = useState('')
   const [genre, setGenre] = useState('')
   const [age, setAge] = useState('')
+  const [sort, setSort] = useState('date')
 
   const fetchCandidats = async () => {
     let query = supabase
@@ -36,6 +37,10 @@ export default function CandidatsPage() {
     if (genre) query = query.eq('genre', genre)
     if (age) query = query.eq('age', Number(age))
 
+    if (sort === 'experience')
+      query = query.order('experience', { ascending: false })
+    else query = query.order('created_at', { ascending: false })
+
     const { data, error } = await query
     if (error) console.error('Erreur chargement candidats', error)
     else setCandidats(data || [])
@@ -44,12 +49,12 @@ export default function CandidatsPage() {
   useEffect(() => {
     fetchCandidats()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keyword, ville, genre, age])
+  }, [keyword, ville, genre, age, sort])
 
   return (
     <div className="p-6">
       <h1 className="mb-4 text-2xl font-bold">Tous les candidats</h1>
-      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
+      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-5">
         <input
           type="text"
           placeholder="Mot-clé"
@@ -80,7 +85,18 @@ export default function CandidatsPage() {
           onChange={(e) => setAge(e.target.value)}
           className="rounded border px-3 py-2"
         />
+        <select
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+          className="rounded border px-3 py-2"
+        >
+          <option value="date">Par date</option>
+          <option value="experience">Par expérience</option>
+        </select>
       </div>
+      <p className="mb-4">
+        {candidats.length} résultat{candidats.length > 1 ? 's' : ''}
+      </p>
       {candidats.length === 0 ? (
         <p>Aucun candidat trouvé.</p>
       ) : (
