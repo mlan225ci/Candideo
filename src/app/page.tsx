@@ -31,7 +31,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-white">
       {/* HERO SECTION */}
-      <section className="bg-green-50 py-16 px-4 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
+      <section className="bg-gradient-to-br from-green-100 via-white to-green-50 py-20 px-4 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="max-w-xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Trouvez le bon profil <br />
@@ -76,7 +76,7 @@ export default function HomePage() {
             <Link
               key={cat.id}
               href={`/categorie/${cat.slug}`}
-              className="bg-gray-100 text-center p-4 rounded-md shadow-sm text-sm"
+              className="bg-white border hover:shadow-lg text-center p-4 rounded-md transition shadow-sm"
             >
               {cat.nom}
               <p className="text-xs text-gray-500 mt-1">
