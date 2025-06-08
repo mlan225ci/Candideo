@@ -26,7 +26,9 @@ export default function ListeCandidats() {
     async function fetchCandidats() {
       const { data, error } = await supabase
         .from('candidats')
-        .select('id, nom, prenom, ville, titre_professionnel');
+        .select(
+          'id, nom, prenom, ville, titre_professionnel, pretention_salariale, tags, ecole_excellence, diplome, annees_experience, bilingue, a_etudie_etranger',
+        );
 
       if (error) console.error('Erreur chargement candidats', error);
       else setCandidats(data);

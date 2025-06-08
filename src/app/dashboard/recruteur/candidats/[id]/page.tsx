@@ -33,7 +33,7 @@ export default function CandidatPage() {
       const { data, error } = await supabase
         .from('candidats')
         .select(
-          'id, nom, prenom, ville, titre_professionnel, email, telephone, linkedin',
+          'id, nom, prenom, ville, titre_professionnel, email, telephone, linkedin, pretention_salariale, tags, ecole_excellence, diplome, annees_experience, bilingue, a_etudie_etranger',
         )
         .eq('id', params.id as string)
         .single()
