@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createBrowserClient } from '@supabase/ssr'
+import { createBrowserClient } from '@/utils/supabase'
 
 export default function OffresPage() {
   const [offres, setOffres] = useState<any[]>([])

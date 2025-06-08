@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { createBrowserClient } from '@supabase/ssr'
+import { createBrowserClient } from '@/utils/supabase'
 
 export default function CandidatDashboard() {
   const [email, setEmail] = useState<string | null>(null)
