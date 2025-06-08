@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
@@ -10,6 +10,13 @@ interface Candidat {
   prenom: string
   ville: string
   titre_professionnel: string
+  pretention_salariale?: number | null
+  tags?: string[] | null
+  ecole_excellence?: boolean | null
+  diplome?: string | null
+  annees_experience?: number | null
+  bilingue?: boolean | null
+  a_etudie_etranger?: boolean | null
 }
 
 export default function CategoriePage() {
