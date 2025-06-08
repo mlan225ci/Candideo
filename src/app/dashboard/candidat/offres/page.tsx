@@ -17,7 +17,7 @@ export default function OffresPage() {
       setOffres(data || [])
     }
     fetchOffres()
-  }, [])
+  }, [supabase])
 
   return (
     <div className="p-6 space-y-4">

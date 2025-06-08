@@ -23,7 +23,7 @@ export default function ListeShortlists() {
       else if (data) setShortlists(data)
     }
     load()
-  }, [])
+  }, [supabase])
 
   return (
     <div className="p-6">

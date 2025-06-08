@@ -23,7 +23,7 @@ export default function ListeOffres() {
       else if (data) setOffres(data)
     }
     load()
-  }, [])
+  }, [supabase])
 
   return (
     <div className="p-6">

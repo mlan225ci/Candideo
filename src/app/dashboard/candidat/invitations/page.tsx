@@ -17,7 +17,7 @@ export default function InvitationsPage() {
       setInvitations(data || [])
     }
     fetchInvitations()
-  }, [])
+  }, [supabase])
 
   return (
     <div className="p-6 space-y-4">

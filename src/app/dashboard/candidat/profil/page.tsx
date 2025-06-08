@@ -17,7 +17,7 @@ export default function ProfilPage() {
       setProfile(data)
     }
     fetchProfile()
-  }, [])
+  }, [supabase])
 
   return (
     <div className="p-6 space-y-4">

@@ -16,7 +16,7 @@ export default function CandidatDashboard() {
       setEmail(user?.email ?? null)
     }
     fetchUser()
-  }, [])
+  }, [supabase])
 
   return (
     <div className="p-6 space-y-6">

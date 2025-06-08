@@ -156,7 +156,7 @@ export default function CandidateFilters({ onSearch }: CandidateFiltersProps) {
           checked={etudieEtranger}
           onChange={(e) => setEtudieEtranger(e.target.checked)}
         />
-        A étudié à l'étranger
+        A étudié à l&apos;étranger
       </label>
       <select
         value={sort}
