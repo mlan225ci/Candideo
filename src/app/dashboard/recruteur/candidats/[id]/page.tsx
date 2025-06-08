@@ -16,10 +16,18 @@ interface Candidat {
   linkedin?: string | null
 }
 
+interface Shortlist {
+  id: string
+  titre: string
+}
+
 export default function CandidatPage() {
   const params = useParams()
   const supabase = createBrowserClient()
   const [candidat, setCandidat] = useState<Candidat | null>(null)
+  const [shortlists, setShortlists] = useState<Shortlist[]>([])
+  const [selected, setSelected] = useState('')
+  const [message, setMessage] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchCandidat = async () => {
@@ -34,14 +42,33 @@ export default function CandidatPage() {
       if (error) console.error('Erreur chargement candidat', error)
       else setCandidat(data)
     }
+    const loadShortlists = async () => {
+      const { data, error } = await supabase
+        .from('shortlists')
+        .select('id, titre')
+
+      if (!error && data) setShortlists(data)
+    }
 
     if (params.id) {
       fetchCandidat()
+      loadShortlists()
     }
   }, [params.id, supabase])
 
   if (!candidat) {
     return <p className="p-6">Chargement...</p>
+  }
+
+  const addToShortlist = async () => {
+    if (!selected) return
+    if (!candidat) return
+    const { error } = await supabase.from('shortlist_items').insert({
+      shortlist_id: selected,
+      candidat_id: candidat.id,
+    })
+    if (error) setMessage('Erreur lors de l\'ajout')
+    else setMessage('Candidat ajouté à la shortlist')
   }
 
   return (
@@ -80,6 +107,32 @@ export default function CandidatPage() {
           </a>
         )}
       </div>
+      {shortlists.length > 0 && (
+        <div className="space-y-2">
+          <label className="block text-sm font-medium">Ajouter à une shortlist</label>
+          <div className="flex items-center gap-2">
+            <select
+              value={selected}
+              onChange={(e) => setSelected(e.target.value)}
+              className="rounded-md border p-2"
+            >
+              <option value="">Sélectionner</option>
+              {shortlists.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.titre}
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={addToShortlist}
+              className="rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+            >
+              Ajouter
+            </button>
+          </div>
+          {message && <p className="text-sm text-gray-600">{message}</p>}
+        </div>
+      )}
     </div>
   )
 }

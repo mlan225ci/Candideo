@@ -41,7 +41,7 @@ export default function CandidateFilters({ onSearch }: CandidateFiltersProps) {
     const load = async () => {
       const { data: villesData } = await supabase
         .from('candidats')
-        .select('ville', { distinct: true })
+        .select('ville', { distinct: true } as any)
         .order('ville', { ascending: true })
       if (villesData) setVilles(villesData.map((v) => v.ville).filter(Boolean))
 
