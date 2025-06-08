@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { createBrowserClient } from '@/utils/supabase'
+import type { Offre } from '@/types'
 
 export default function OffresPage() {
-  const [offres, setOffres] = useState<any[]>([])
+  const [offres, setOffres] = useState<Offre[]>([])
   const supabase = createBrowserClient()
 
   useEffect(() => {

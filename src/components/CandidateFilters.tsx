@@ -41,6 +41,7 @@ export default function CandidateFilters({ onSearch }: CandidateFiltersProps) {
     const load = async () => {
       const { data: villesData } = await supabase
         .from('candidats')
+        // @ts-ignore - distinct option not typed in supabase client
         .select('ville', { distinct: true })
         .order('ville', { ascending: true })
       if (villesData) setVilles(villesData.map((v) => v.ville).filter(Boolean))

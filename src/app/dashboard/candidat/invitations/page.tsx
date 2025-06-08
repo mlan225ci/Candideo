@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { createBrowserClient } from '@/utils/supabase'
+import type { Invitation } from '@/types'
 
 export default function InvitationsPage() {
-  const [invitations, setInvitations] = useState<any[]>([])
+  const [invitations, setInvitations] = useState<Invitation[]>([])
   const supabase = createBrowserClient()
 
   useEffect(() => {
