@@ -13,6 +13,9 @@ export default function Navbar() {
         <Link href="/rendez-vous" className="hover:text-green-600 dark:hover:text-green-400">
           Prendre rendez-vous
         </Link>
+        <Link href="/candidats" className="hover:text-green-600 dark:hover:text-green-400">
+          Liste des candidats
+        </Link>
         <Link
           href="/login"
           className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 transition"
