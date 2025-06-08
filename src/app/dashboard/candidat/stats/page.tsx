@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { createBrowserClient } from '@/utils/supabase'
+import type { Stats } from '@/types'
 
 export default function StatsPage() {
-  const [stats, setStats] = useState<any | null>(null)
+  const [stats, setStats] = useState<Stats | null>(null)
   const supabase = createBrowserClient()
 
   useEffect(() => {

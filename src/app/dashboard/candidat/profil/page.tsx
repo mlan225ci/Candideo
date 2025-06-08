@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { createBrowserClient } from '@/utils/supabase'
+import type { Profile } from '@/types'
 
 export default function ProfilPage() {
-  const [profile, setProfile] = useState<any | null>(null)
+  const [profile, setProfile] = useState<Profile | null>(null)
   const supabase = createBrowserClient()
 
   useEffect(() => {
