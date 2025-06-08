@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import { createBrowserClient } from '@supabase/ssr'
+import { createBrowserClient } from '@/utils/supabase'
 
 interface Candidat {
   id: string
