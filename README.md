@@ -69,7 +69,7 @@
    cd name-of-new-app
    ```
 
-4. Rename `.env.local.example` to `.env.local` and update the following:
+4. Copy `.env.local.example` to `.env.local` and update the following values:
 
    ```
    NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
