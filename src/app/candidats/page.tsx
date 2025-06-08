@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { createBrowserClient } from '@/utils/supabase'
 import CandidateFilters, { Filters } from '@/components/CandidateFilters'
@@ -28,60 +28,62 @@ export default function CandidatsPage() {
   const [loading, setLoading] = useState(false)
   const [filters, setFilters] = useState<Filters | null>(null)
 
-  const fetchCandidats = async (f: Filters | null = filters) => {
-    setLoading(true)
-    let query = supabase
-      .from('candidats')
-      .select(
-        'id, nom, prenom, ville, genre, age, titre_professionnel, pretention_salariale, tags, ecole_excellence, diplome, annees_experience, bilingue, a_etudie_etranger',
-      )
-
-    if (f) {
-      const {
-        keyword,
-        ville,
-        categorie,
-        ecole_excellence,
-        genre,
-        age,
-        diplome,
-        annees_experience,
-        bilingue,
-        a_etudie_etranger,
-        sort,
-      } = f
-      if (keyword)
-        query = query.or(
-          `nom.ilike.%${keyword}%,prenom.ilike.%${keyword}%,titre_professionnel.ilike.%${keyword}%`,
+  const fetchCandidats = useCallback(
+    async (f: Filters | null = filters) => {
+      setLoading(true)
+      let query = supabase
+        .from('candidats')
+        .select(
+          'id, nom, prenom, ville, genre, age, titre_professionnel, pretention_salariale, tags, ecole_excellence, diplome, annees_experience, bilingue, a_etudie_etranger',
         )
-      if (ville) query = query.eq('ville', ville)
-      if (categorie) query = query.eq('categorie', categorie)
-      if (ecole_excellence) query = query.eq('ecole_excellence', true)
-      if (genre) query = query.eq('genre', genre)
-      if (age) query = query.eq('age', Number(age))
-      if (diplome) query = query.eq('diplome', diplome)
-      if (annees_experience)
-        query = query.eq('annees_experience', Number(annees_experience))
-      if (bilingue) query = query.eq('bilingue', true)
-      if (a_etudie_etranger) query = query.eq('a_etudie_etranger', true)
 
-      if (sort === 'experience')
-        query = query.order('experience', { ascending: false })
-      else query = query.order('created_at', { ascending: false })
-    } else {
-      query = query.order('created_at', { ascending: false })
-    }
+      if (f) {
+        const {
+          keyword,
+          ville,
+          categorie,
+          ecole_excellence,
+          genre,
+          age,
+          diplome,
+          annees_experience,
+          bilingue,
+          a_etudie_etranger,
+          sort,
+        } = f
+        if (keyword)
+          query = query.or(
+            `nom.ilike.%${keyword}%,prenom.ilike.%${keyword}%,titre_professionnel.ilike.%${keyword}%`,
+          )
+        if (ville) query = query.eq('ville', ville)
+        if (categorie) query = query.eq('categorie', categorie)
+        if (ecole_excellence) query = query.eq('ecole_excellence', true)
+        if (genre) query = query.eq('genre', genre)
+        if (age) query = query.eq('age', Number(age))
+        if (diplome) query = query.eq('diplome', diplome)
+        if (annees_experience)
+          query = query.eq('annees_experience', Number(annees_experience))
+        if (bilingue) query = query.eq('bilingue', true)
+        if (a_etudie_etranger) query = query.eq('a_etudie_etranger', true)
 
-    const { data, error } = await query
-    if (!error) setCandidats(data || [])
-    else console.error('Erreur chargement candidats', error)
-    setLoading(false)
-  }
+        if (sort === 'experience')
+          query = query.order('experience', { ascending: false })
+        else query = query.order('created_at', { ascending: false })
+      } else {
+        query = query.order('created_at', { ascending: false })
+      }
+
+      const { data, error } = await query
+      if (!error) setCandidats(data || [])
+      else console.error('Erreur chargement candidats', error)
+      setLoading(false)
+    },
+    [filters, supabase],
+  )
 
   useEffect(() => {
     fetchCandidats()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [fetchCandidats])
 
   return (
     <div className="p-6 md:flex md:gap-6">
