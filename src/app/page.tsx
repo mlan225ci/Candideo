@@ -1,8 +1,29 @@
 'use client';
 
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { createBrowserClient } from '@supabase/ssr';
 
 export default function HomePage() {
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
+  const supabase = createBrowserClient();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('id, name');
+
+      if (error) {
+        console.error('Erreur chargement categories', error);
+      } else {
+        setCategories(data ?? []);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   return (
     <main className="min-h-screen bg-white">
       {/* HERO SECTION */}
@@ -46,18 +67,18 @@ export default function HomePage() {
       <section className="py-14 px-6">
         <h2 className="text-2xl font-bold mb-6">Parcourir les profils par catégories</h2>
         <p className="text-gray-600 mb-6">Trouvez les meilleurs profils rapidement</p>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {[
-            "Communication", "Gestion de projet", "Informatique", "Secrétaires", "Comptabilité",
-            "Commercial", "Ingénierie", "Marketing & Vente", "RH", "Contrôle de gestion",
-            "Expatriés", "QHSE", "Bâtiment", "Travaux publics", "Bilingues"
-          ].map((cat) => (
-            <div key={cat} className="bg-gray-100 text-center p-4 rounded-md shadow-sm text-sm">
-              {cat}
-              <p className="text-xs text-gray-500 mt-1">0 candidat</p>
-            </div>
-          ))}
-        </div>
+        {categories.length === 0 ? (
+          <p>zero resultat.</p>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {categories.map((cat) => (
+              <div key={cat.id} className="bg-gray-100 text-center p-4 rounded-md shadow-sm text-sm">
+                {cat.name}
+                <p className="text-xs text-gray-500 mt-1">0 candidat</p>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* CHIFFRES CLÉS */}
