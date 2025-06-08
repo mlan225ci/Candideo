@@ -2,7 +2,6 @@ import '../globals.css'; // Corrigé : remonter d'un dossier
 import { ReactNode } from 'react';
 import Navbar from '../components/Navbar'; // Chemin relatif depuis /app
 import Footer from '../components/Footer'; // Idem
-import '../globals.css';
 
 
 export const metadata = {
